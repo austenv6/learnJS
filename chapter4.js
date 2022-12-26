@@ -210,3 +210,177 @@ console.log([1,2,3,2,1].indexOf(2));
 console.log([1,2,3,2,1].lastIndexOf(2));
 console.log([0,1,2,3,4].slice(2,4));
 console.log([0,1,2,3,4].slice(2));
+
+function remove(array, index) {
+    return array.slice(0, index).concat(array.slice(index+1));
+}
+console.log(remove(["a","b","c","d","e"], 2));
+
+let kim = "Kim";
+kim.age = 88;
+console.log(kim.age); // illegal to add properties to string.
+console.log("coconuts".slice(4,7));
+console.log("coconut".indexOf("u"));
+console.log("one two three".indexOf("ee"));
+console.log("   okay  \n".trim());
+console.log(String(6).padStart(3,"0"));
+
+let sentence = "Secretarybirds specialize in stomping";
+let words = sentence.split(" ");
+console.log(words.join(". "));
+console.log("LA".repeat(3));
+
+function max (...numbers) {
+    let result = -Infinity;
+    for (let number of numbers) {
+        if (number > result) result = number;
+    }
+    return result;
+}
+console.log(max(4,1,9,-2));
+let numbers = [5,1,7];
+console.log(max(...numbers));
+
+function phi([n00, n01, n10, n11]) {
+    return (n11 * n00 - n10 * n01) /
+    Math.sqrt((n10 + n11) * (n00 + n01) *
+        (n01+n11) * (n00+n10));
+}
+
+let {age} = {name: "Faraji", age: 23};
+console.log(age);
+
+let string = JSON.stringify({squirrel: false, events: ["weekend"]});
+console.log(string);
+console.log(JSON.parse(string).events);
+
+//Exercises
+function range(start, end) {
+    let rangey = [];
+    for (let i = start; i <= end; ++i) {
+        rangey.push(i);
+    }
+    return rangey;
+}
+console.log(range(4,6)); //
+
+function rangeSum(numeros){
+    result = 0;
+    for (let val of numeros) {
+        result += val;
+    }
+    return result;
+}
+console.log(rangeSum([1,2,3,4,5,6,7,8,9,10]));
+
+function reverseArray(arrayVal) {
+    let newArray = [];
+    for (val of arrayVal) {
+        newArray.unshift(val);
+    }
+    return newArray;
+}
+console.log(reverseArray(["C","B","A"]));
+function reverseArrayInPlace(arrayVal) {
+    for (let i = 0; i <= Math.floor(arrayVal.length/2); ++i) {
+        let temp = arrayVal[i];
+        arrayVal[i] = arrayVal.length - i;
+        arrayVal[arrayVal.length - 1 - i] = temp;
+    }
+    return arrayVal;
+}
+let arrayValue = [1,2,3,4,5];
+reverseArrayInPlace(arrayValue);
+console.log(arrayValue);
+
+// A List
+function arrayToList(arrayValue) {
+    var list = null;
+    for (let i = arrayValue.length-1; i >= 0; --i) {
+        list = {value: arrayValue[i], rest: list}
+    }
+    return list;
+}
+console.log(arrayToList([10, 20, 30]));
+
+function listToArray(list) {
+    var array = [];
+    for (let node = list; node; node = node.rest) {
+        array.push(node.value);
+    }
+    return array;
+}
+console.log(listToArray(arrayToList([10,20,30])));
+
+function prepend(element, list) {
+    //creates new list 
+    // adds the element to the front of the input list
+    var newList = {};
+    newList = {value: element, rest: list};
+    return newList;
+}
+
+function nth(list, number){
+    //takes list and number. returns element at given position in the list
+    var element = undefined;
+    var count = 0;
+    for (let node = list; node; node = node.rest) {
+        if (count == number) {
+            return node.value;
+        }
+        ++count;
+    }
+    return undefined;
+}
+
+function recursiveNth(list, number) {
+    var node = list;
+    if (number == 0){
+        return node.value;
+    } else {
+        if (node.rest) {
+            node = node.rest;
+            return recursiveNth(node, number-1);
+        }
+    }
+    return undefined;
+}
+
+console.log(prepend(10, prepend(20, null)));
+// → {value: 10, rest: {value: 20, rest: null}}
+console.log(nth(arrayToList([10, 20, 30]), 1));
+// → 20
+console.log(recursiveNth(arrayToList([10, 20, 30]), 2));
+// > 30
+
+// Deep Comparison
+function deepEqual(val1, val2) {
+    // if equal, return true
+    // else, false
+    if (val1 === val2) {
+        return true;
+    }
+    if ((val1 == null || typeof val1 != "object") || (val2 == null ||typeof val2 != "object")) {
+        return false;
+    }
+    let keys1 = Object.keys(val1);
+    let keys2 = Object.keys(val2);
+    if (keys1.length != keys2.length) {
+        return false;
+    }
+    for(let key of keys1) {
+        if (!keys2.includes(key) || !deepEqual(val1[key], val2[key])) {
+            return false;
+        }
+    }
+    return true;
+
+}
+
+let obj = {here: {is: "an"}, object: 2};
+console.log (deepEqual(obj,obj));
+// true
+console.log(deepEqual(obj, {here: 1, object: 2}));
+// → false
+console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+// → true
