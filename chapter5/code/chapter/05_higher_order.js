@@ -148,3 +148,25 @@ function every2(array,test) {
 console.log(every2([1,3,5], n => n < 10));
 console.log(every2([2,4,16], n => n < 10));
 console.log(every2([], n => n < 10));
+
+function dominantDirection2(text) {
+  let scripts = countBy(text, char => {
+    let script = characterScript(char.codePointAt(0));
+    return script ? script.direction : "none";
+  }).filter(({name}) => name != "none");
+
+  if (scripts.length == 0) return "ltr";
+}
+
+function dominantDirection(text) {
+  let scripts = countBy(text, char => {
+    let script = characterScript(char.codePointAt(0));
+    return script ? script.name : "none";
+  }).filter(({name}) => name != "none");
+}
+console.log(dominantDirection("Hello!"));
+// → ltr
+console.log(dominantDirection("Hey, مساء الخير"));
+// → rtl
+
+//high order function takes function as param or returns function.
