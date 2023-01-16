@@ -222,4 +222,31 @@ class SymmetricMatrix extends Matrix {
 }
 
 let matrix = new SymmetricMatrix(5, (x,y) => `${x},${y}`);
-console.log(matrix.get(2,3));
+//console.log(matrix.get(2,3));
+
+// exercises
+//a vector type
+
+class Vec {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    minus(vecy) {
+        return new Vec(this.x - vecy.x, this.y - vecy.y)
+    }
+    plus(vecy) {
+        return new Vec(this.x + vecy.x, this.y + vecy.y)
+    }
+    get length() {
+        return (Math.sqrt(this.x * this.x + this.y * this.y));
+    }
+};
+console.log(new Vec(1,2));
+let vvec = new Vec(1,2);
+console.log(vvec.x);
+console.log(new Vec(1,2).plus(new Vec(2,3)));
+console.log(new Vec(1,2).minus(new Vec(2,3)));
+console.log(new Vec(3,4).length);
+
+// groups
