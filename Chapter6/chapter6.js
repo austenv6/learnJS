@@ -168,9 +168,58 @@ Matrix.prototype[Symbol.iterator] = function() {
     return new MatrixIterator(this);
 };
 
-let matrix = new Matrix(2, 2, (x,y) => `value ${x},${y}`);
-for (let {x, y, value} of matrix) {
+let matrix1 = new Matrix(2, 2, (x,y) => `value ${x},${y}`);
+for (let {x, y, value} of matrix1) {
     console.log(x, y, value);
 }
 
 //getters, setters and statics
+
+let varyingSize = {
+    get size() {
+        return Math.floor(Math.random() * 100);
+    }
+};
+console.log(varyingSize.size);
+
+class Temperature {
+    constructor(celsius) {
+        this.celsius = celsius;
+    }
+    get fahrenheit() {
+        return this.celsius * 1.8 + 32;
+    }
+    set fahrenheit(value) {
+        this.celsius = (value - 32) / 1.8;
+    }
+    static fromFahrenheit(value) {
+        return new Temperature((value - 32) / 1.8);
+    }
+}
+
+let temp = new Temperature(35);
+console.log(temp.fahrenheit);
+temp.fahrenheit = 86;
+console.log(temp.celsius);
+let tempy = Temperature.fromFahrenheit(100);
+console.log(tempy.fahrenheit);
+
+//inheritance
+class SymmetricMatrix extends Matrix {
+    constructor(size, element = (x,y) => undefined) {
+        super(size, element = (x,y) => {
+            if (x < y) return element(y, x);
+            else return element(x,y);
+        });
+    }
+
+    set(x, y, value) {
+        super.set(x, y, value);
+        if (x != y) {
+            super.set(y, x, value);
+        }
+    }
+}
+
+let matrix = new SymmetricMatrix(5, (x,y) => `${x},${y}`);
+console.log(matrix.get(2,3));
